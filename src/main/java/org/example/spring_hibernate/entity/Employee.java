@@ -5,6 +5,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employees")
@@ -41,6 +42,8 @@ public class Employee {
         return id;
     }
 
+
+
     public void setId(int id) {
         this.id = id;
     }
@@ -65,6 +68,16 @@ public class Employee {
         return department;
     }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", department='" + department + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
+
     public void setDepartment(String department) {
         this.department = department;
     }
@@ -75,6 +88,30 @@ public class Employee {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Employee employee = (Employee) o;
+
+        if (id != employee.id) return false;
+        if (salary != employee.salary) return false;
+        if (!Objects.equals(name, employee.name)) return false;
+        if (!Objects.equals(surname, employee.surname)) return false;
+        return Objects.equals(department, employee.department);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (department != null ? department.hashCode() : 0);
+        result = 31 * result + salary;
+        return result;
     }
 
 }
