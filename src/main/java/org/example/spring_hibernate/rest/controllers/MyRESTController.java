@@ -22,7 +22,7 @@ public class MyRESTController {
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> showAllEmployees() {
+    public ResponseEntity<List<Employee>> getAllEmployees() {
         return new ResponseEntity<>(service.getAllEmployees(), HttpStatus.OK);
     }
 
@@ -41,7 +41,7 @@ public class MyRESTController {
         if(bindingResult.hasErrors())
             throw new ValidDataException("Invalid data");
         service.saveEmployee(employee);
-        return new ResponseEntity<>(employee,HttpStatus.OK);
+        return new ResponseEntity<>(employee,HttpStatus.CREATED);
     }
 
     @PutMapping("/employees")
@@ -50,13 +50,13 @@ public class MyRESTController {
         return new ResponseEntity<>(employee,HttpStatus.OK);
     }
     @DeleteMapping("/employees/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable int id) {
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable int id) {
         Employee employee = service.getEmployee(id);
         if(employee == null)
             throw new NoSuchEmployeeException("There is no employee with ID = " +
                     id + " in Database");
        service.deleteEmployee(id);
-        return new ResponseEntity<>("Employee with ID = " + id + " was delete", HttpStatus.OK);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
 }

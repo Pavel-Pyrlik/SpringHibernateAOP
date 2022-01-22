@@ -35,7 +35,7 @@ public class EmployeeServiceImplTest {
     @Test
     public void getAllEmployees() {
         List<Employee> employeeList = employeeService.getAllEmployees();
-        Assert.assertEquals(employee, employeeList.get(0));
+        Assert.assertTrue(employeeList.contains(employee));
     }
 
     @Test

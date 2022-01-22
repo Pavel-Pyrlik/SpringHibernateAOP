@@ -55,21 +55,14 @@ public class EmployeeTest {
     }
 
     @Test
-    public void shouldDetectInvalidName() {
+    public void shouldDetectInvalid() {
 
         employee3 = new Employee("M", "", "   ", 10);
-
         Set<ConstraintViolation<Employee>> violations
                 = validator.validate(employee3);
 
         Assert.assertEquals(violations.size(), 4);
 
-        ConstraintViolation<Employee> violation
-                = violations.iterator().next();
-        Assert.assertEquals("размер должен находиться в диапазоне от 2 до 2147483647",
-                violation.getMessage());
-        Assert.assertEquals("surname", violation.getPropertyPath().toString());
-        Assert.assertEquals("", violation.getInvalidValue());
     }
 
 }

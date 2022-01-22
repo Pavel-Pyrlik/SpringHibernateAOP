@@ -9,8 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/test-context.xml"})
 @WebAppConfiguration
+@Transactional
 public class MyControllerTest {
 
     @Autowired
@@ -59,7 +60,7 @@ public class MyControllerTest {
     @Test
     public void testUpdateEmployee() throws Exception {
 
-        mockMvc.perform(get("/updateInfo?empId=1"))
+        mockMvc.perform(get("/updateInfo").param("empId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/employee-info.jsp"));
 
@@ -68,7 +69,7 @@ public class MyControllerTest {
     @Test
     public void testDeleteEmployee() throws Exception {
 
-        mockMvc.perform(get("/deleteEmp").param("empId", "4"))
+        mockMvc.perform(get("/deleteEmp").param("empId", "1"))
                 .andExpect(status().is3xxRedirection());
 
     }
