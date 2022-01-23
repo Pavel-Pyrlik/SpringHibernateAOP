@@ -21,7 +21,7 @@ public class EmployeeTest {
     private static Employee employee3;
 
     @BeforeClass
-    public static void createValidator() {
+    public static void setUp() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
         employee1 = new Employee("Masha", "Ivanova", "Sale", 800);
