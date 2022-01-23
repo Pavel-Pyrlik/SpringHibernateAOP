@@ -3,6 +3,7 @@ package controllers_test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.spring_hibernate.entity.Employee;
 import org.example.spring_hibernate.exception_handling.NoSuchEmployeeException;
+import org.example.spring_hibernate.exception_handling.ValidDataException;
 import org.example.spring_hibernate.services.EmployeeService;
 import org.junit.Before;
 
@@ -66,8 +67,7 @@ public class MyRESTControllerTest {
         mockMvc.perform(
                         post("/api/employees")
                                 .content(objectMapper.writeValueAsString(employee1))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Nina"));
@@ -95,6 +95,13 @@ public class MyRESTControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(mvcResult -> Objects.requireNonNull(mvcResult.getResolvedException())
                         .getClass().equals(NoSuchEmployeeException.class));
+
+        mockMvc.perform(post("/api/employees")
+                .content(objectMapper.writeValueAsString(new Employee()))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(mvcResult -> Objects.requireNonNull(mvcResult.getResolvedException())
+                        .getClass().equals(ValidDataException.class));
     }
     }
 
