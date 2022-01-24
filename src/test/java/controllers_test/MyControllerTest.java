@@ -1,6 +1,8 @@
 package controllers_test;
 
 import org.example.spring_hibernate.controllers.MyController;
+import org.example.spring_hibernate.entity.Employee;
+import org.example.spring_hibernate.services.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +27,8 @@ public class MyControllerTest {
 
     @Autowired
     WebApplicationContext wac;
+    @Autowired
+    EmployeeService employeeService;
 
     private MockMvc mockMvc;
 
@@ -68,8 +72,10 @@ public class MyControllerTest {
 
     @Test
     public void testDeleteEmployee() throws Exception {
+        Employee employee = new Employee("Masha", "Ivanova", "Sale", 800);
+        employeeService.saveEmployee(employee);
 
-        mockMvc.perform(get("/deleteEmp").param("empId", "1"))
+        mockMvc.perform(get("/deleteEmp").param("empId", String.valueOf(employee.getId())))
                 .andExpect(status().is3xxRedirection());
 
     }

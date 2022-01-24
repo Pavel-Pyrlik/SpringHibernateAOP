@@ -32,10 +32,10 @@
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
-        <property name="driverClass" value="${db.driverClass}" />
-        <property name="jdbcUrl" value="${db.jdbcUrl}" />
-        <property name="user" value="${db.username}" />
-        <property name="password" value="${db.password}" />
+        <property name="driverClass" value="org.h2.Driver" />
+        <property name="jdbcUrl" value="jdbc:h2:mem:test;INIT=CREATE SCHEMA IF NOT EXISTS employees" />
+        <property name="user" value="sa" />
+        <property name="password" value="" />
     </bean>
 
     <bean id="sessionFactory"
@@ -44,8 +44,9 @@
         <property name="packagesToScan" value="org.example.spring_hibernate.entity" />
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
             </props>
         </property>
     </bean>
