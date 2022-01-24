@@ -24,9 +24,9 @@ public class EmployeeTest {
     public static void setUp() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
-        employee1 = new Employee("Masha", "Ivanova", "Sale", 800);
+        employee1 = newEmployee();
         employee1.setId(1);
-        employee2 = new Employee("Masha", "Ivanova", "Sale", 800);
+        employee2 = newEmployee();
         employee2.setId(1);
     }
 
@@ -45,7 +45,7 @@ public class EmployeeTest {
     @Test
     public void shouldHaveNoViolations() {
 
-        employee3 = new Employee("Masha", "Ivanova", "Sale", 800);
+        employee3 = newEmployee();
 
         Set<ConstraintViolation<Employee>> violations
                 = validator.validate(employee3);
@@ -63,6 +63,10 @@ public class EmployeeTest {
 
         Assert.assertEquals(violations.size(), 4);
 
+    }
+
+    private static Employee newEmployee() {
+        return new Employee("Masha", "Ivanova", "Sale", 800);
     }
 
 }

@@ -26,7 +26,7 @@ public class EmployeeServiceImplTest {
 
     @Before
     public void setUp() {
-        employee = new Employee("Masha", "Ivanova", "Sale", 800);
+        employee = newEmployee();
         employeeService.saveEmployee(employee);
         employeeTestId = employee.getId();
 
@@ -40,8 +40,8 @@ public class EmployeeServiceImplTest {
 
     @Test
     public void saveEmployee() {
-        Employee employee1 = new Employee("Nina", "Sidorova", "Sale", 800);
-        Employee employee2 = new Employee("Nina", "Sidorova", "Sale", 800);
+        Employee employee1 = newEmployee();
+        Employee employee2 = newEmployee();
         employeeService.saveEmployee(employee1);
         employee2.setId(employee1.getId());
         Assert.assertEquals(employee1,employee2);
@@ -57,5 +57,9 @@ public class EmployeeServiceImplTest {
     public void getEmployee() {
         Assert.assertNotNull(employeeService.getEmployee(employeeTestId));
 
+    }
+
+    private static Employee newEmployee() {
+        return new Employee("Masha", "Ivanova", "Sale", 800);
     }
 }
