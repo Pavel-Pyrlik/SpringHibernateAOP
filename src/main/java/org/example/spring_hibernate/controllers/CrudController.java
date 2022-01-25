@@ -13,11 +13,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-public class MyController {
+@RequestMapping("/crud")
+public class CrudController {
 
     private final EmployeeService employeeService;
 
-    public MyController(EmployeeService employeeService) {
+    public CrudController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -41,7 +42,7 @@ public class MyController {
             return "employee-info";
         else {
             employeeService.saveEmployee(employee);
-            return "redirect:/";
+            return "redirect:/crud/";
         }
     }
 
@@ -55,7 +56,7 @@ public class MyController {
     @RequestMapping("/deleteEmp")
     public String deleteEmployee(@RequestParam("empId") int id) {
         employeeService.deleteEmployee(id);
-        return "redirect:/";
+        return "redirect:/crud/";
     }
 
 }

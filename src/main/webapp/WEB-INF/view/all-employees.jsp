@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pavel123
@@ -19,17 +20,19 @@
         <th>Name</th>
         <th>Surname</th>
         <th>Department</th>
+        <security:authorize access="hasRole('HR')">
         <th>Salary</th>
         <th>Operations</th>
+        </security:authorize>
     </tr>
 
     <c:forEach var="emp" items="${allEmps}">
 
-        <c:url var="updateButton" value="/updateInfo">
+        <c:url var="updateButton" value="/crud/updateInfo">
             <c:param name = "empId" value="${emp.id}"/>
         </c:url>
 
-        <c:url var="deleteButton" value="/deleteEmp">
+        <c:url var="deleteButton" value="/crud//deleteEmp">
             <c:param name = "empId" value="${emp.id}"/>
         </c:url>
 
@@ -37,6 +40,7 @@
             <td>${emp.name}</td>
             <td>${emp.surname}</td>
             <td>${emp.department}</td>
+            <security:authorize access="hasRole('HR')">
             <td>${emp.salary}</td>
             <td>
                 <input type="button" value="Обновить"
@@ -44,6 +48,7 @@
                 <input type="button" value="Удалить"
                        onclick="window.location.href = '${deleteButton}'"/>
             </td>
+            </security:authorize>
         </tr>
 
     </c:forEach>
@@ -52,7 +57,9 @@
 
 <br><br>
 
+<security:authorize access="hasRole('HR')">
 <input type="button" value="ADD"
-       onclick="window.location.href = '/addNewEmployee'"/>
+       onclick="window.location.href = '/crud/addNewEmployee'"/>
+</security:authorize>
 </body>
 </html>

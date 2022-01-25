@@ -1,6 +1,7 @@
 package controllers_test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import config.TestMyConfig;
 import org.example.spring_hibernate.entity.Employee;
 import org.example.spring_hibernate.exception_handling.NoSuchEmployeeException;
 import org.example.spring_hibernate.exception_handling.ValidDataException;
@@ -26,7 +27,7 @@ import java.util.Objects;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:/test-context.xml"})
+@ContextConfiguration(classes={TestMyConfig.class})
 @WebAppConfiguration
 @Transactional
 public class MyRESTControllerTest {

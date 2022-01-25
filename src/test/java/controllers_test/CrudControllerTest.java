@@ -1,6 +1,8 @@
 package controllers_test;
 
-import org.example.spring_hibernate.controllers.MyController;
+import config.TestMyConfig;
+import config.TestMyWebInitializer;
+import org.example.spring_hibernate.controllers.CrudController;
 import org.example.spring_hibernate.entity.Employee;
 import org.example.spring_hibernate.services.EmployeeService;
 import org.junit.Before;
@@ -20,10 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:/test-context.xml"})
+@ContextConfiguration(classes={TestMyConfig.class, TestMyWebInitializer.class})
 @WebAppConfiguration
 @Transactional
-public class MyControllerTest {
+public class CrudControllerTest {
 
     @Autowired
     WebApplicationContext wac;
@@ -33,7 +35,7 @@ public class MyControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    MyController myController;
+    CrudController crudController;
 
     @Before
     public void setup() {
@@ -44,7 +46,7 @@ public class MyControllerTest {
     @Test
     public void testHomePage() throws Exception {
 
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/crud/"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/all-employees.jsp"))
                 .andExpect(model().attributeExists("allEmps"));
@@ -54,7 +56,7 @@ public class MyControllerTest {
     @Test
     public void testAddNewEmployee() throws Exception {
 
-        mockMvc.perform(get("/addNewEmployee"))
+        mockMvc.perform(get("/crud/addNewEmployee"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/employee-info.jsp"))
                 .andExpect(model().attributeExists("newEmployee"));
@@ -64,7 +66,7 @@ public class MyControllerTest {
     @Test
     public void testUpdateEmployee() throws Exception {
 
-        mockMvc.perform(get("/updateInfo").param("empId", "1"))
+        mockMvc.perform(get("/crud/updateInfo").param("empId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/view/employee-info.jsp"));
 
@@ -75,7 +77,7 @@ public class MyControllerTest {
         Employee employee = new Employee("Masha", "Ivanova", "Sale", 800);
         employeeService.saveEmployee(employee);
 
-        mockMvc.perform(get("/deleteEmp").param("empId", String.valueOf(employee.getId())))
+        mockMvc.perform(get("/crud/deleteEmp").param("empId", String.valueOf(employee.getId())))
                 .andExpect(status().is3xxRedirection());
 
     }
